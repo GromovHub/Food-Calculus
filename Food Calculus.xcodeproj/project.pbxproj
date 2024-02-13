@@ -7,16 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D0B6EE4E2B7929FA00155B34 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B6EE4D2B7929FA00155B34 /* ItemCell.swift */; };
 		D0F7C14E2B6EAF280024A016 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C14D2B6EAF280024A016 /* AppDelegate.swift */; };
 		D0F7C1502B6EAF280024A016 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C14F2B6EAF280024A016 /* SceneDelegate.swift */; };
-		D0F7C1522B6EAF280024A016 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C1512B6EAF280024A016 /* ViewController.swift */; };
-		D0F7C1552B6EAF280024A016 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0F7C1532B6EAF280024A016 /* Main.storyboard */; };
+		D0F7C1522B6EAF280024A016 /* CaterotyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C1512B6EAF280024A016 /* CaterotyViewController.swift */; };
 		D0F7C1582B6EAF280024A016 /* Food_Calculus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C1562B6EAF280024A016 /* Food_Calculus.xcdatamodeld */; };
 		D0F7C15A2B6EAF290024A016 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0F7C1592B6EAF290024A016 /* Assets.xcassets */; };
 		D0F7C15D2B6EAF290024A016 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0F7C15B2B6EAF290024A016 /* LaunchScreen.storyboard */; };
 		D0F7C1682B6EAF290024A016 /* Food_CalculusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C1672B6EAF290024A016 /* Food_CalculusTests.swift */; };
 		D0F7C1722B6EAF290024A016 /* Food_CalculusUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C1712B6EAF290024A016 /* Food_CalculusUITests.swift */; };
 		D0F7C1742B6EAF290024A016 /* Food_CalculusUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C1732B6EAF290024A016 /* Food_CalculusUITestsLaunchTests.swift */; };
+		D0F7C1812B6F6AD60024A016 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C1802B6F6AD60024A016 /* CategoryCell.swift */; };
+		D0F7C1852B70896E0024A016 /* ItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C1842B70896E0024A016 /* ItemsViewController.swift */; };
+		D0F7C1872B71C87A0024A016 /* DetailSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C1862B71C87A0024A016 /* DetailSheetViewController.swift */; };
+		D0F7C18A2B7323670024A016 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D0F7C1892B7323670024A016 /* IQKeyboardManagerSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,11 +41,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D0B6EE4D2B7929FA00155B34 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		D0F7C14A2B6EAF280024A016 /* Food Calculus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food Calculus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F7C14D2B6EAF280024A016 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0F7C14F2B6EAF280024A016 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D0F7C1512B6EAF280024A016 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D0F7C1542B6EAF280024A016 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D0F7C1512B6EAF280024A016 /* CaterotyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaterotyViewController.swift; sourceTree = "<group>"; };
 		D0F7C1572B6EAF280024A016 /* Food_Calculus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Food_Calculus.xcdatamodel; sourceTree = "<group>"; };
 		D0F7C1592B6EAF290024A016 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0F7C15C2B6EAF290024A016 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +55,9 @@
 		D0F7C16D2B6EAF290024A016 /* Food CalculusUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Food CalculusUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F7C1712B6EAF290024A016 /* Food_CalculusUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food_CalculusUITests.swift; sourceTree = "<group>"; };
 		D0F7C1732B6EAF290024A016 /* Food_CalculusUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food_CalculusUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D0F7C1802B6F6AD60024A016 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		D0F7C1842B70896E0024A016 /* ItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsViewController.swift; sourceTree = "<group>"; };
+		D0F7C1862B71C87A0024A016 /* DetailSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSheetViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0F7C18A2B7323670024A016 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,10 +109,11 @@
 		D0F7C14C2B6EAF280024A016 /* Food Calculus */ = {
 			isa = PBXGroup;
 			children = (
+				D0F7C1822B6F6ADC0024A016 /* Category */,
+				D0F7C1832B7089490024A016 /* Items */,
+				D0F7C1862B71C87A0024A016 /* DetailSheetViewController.swift */,
 				D0F7C14D2B6EAF280024A016 /* AppDelegate.swift */,
 				D0F7C14F2B6EAF280024A016 /* SceneDelegate.swift */,
-				D0F7C1512B6EAF280024A016 /* ViewController.swift */,
-				D0F7C1532B6EAF280024A016 /* Main.storyboard */,
 				D0F7C1592B6EAF290024A016 /* Assets.xcassets */,
 				D0F7C15B2B6EAF290024A016 /* LaunchScreen.storyboard */,
 				D0F7C15E2B6EAF290024A016 /* Info.plist */,
@@ -130,6 +139,24 @@
 			path = "Food CalculusUITests";
 			sourceTree = "<group>";
 		};
+		D0F7C1822B6F6ADC0024A016 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				D0F7C1512B6EAF280024A016 /* CaterotyViewController.swift */,
+				D0F7C1802B6F6AD60024A016 /* CategoryCell.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		D0F7C1832B7089490024A016 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				D0F7C1842B70896E0024A016 /* ItemsViewController.swift */,
+				D0B6EE4D2B7929FA00155B34 /* ItemCell.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -146,6 +173,9 @@
 			dependencies = (
 			);
 			name = "Food Calculus";
+			packageProductDependencies = (
+				D0F7C1892B7323670024A016 /* IQKeyboardManagerSwift */,
+			);
 			productName = "Food Calculus";
 			productReference = D0F7C14A2B6EAF280024A016 /* Food Calculus.app */;
 			productType = "com.apple.product-type.application";
@@ -218,6 +248,9 @@
 				Base,
 			);
 			mainGroup = D0F7C1412B6EAF280024A016;
+			packageReferences = (
+				D0F7C1882B7323670024A016 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+			);
 			productRefGroup = D0F7C14B2B6EAF280024A016 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -236,7 +269,6 @@
 			files = (
 				D0F7C15D2B6EAF290024A016 /* LaunchScreen.storyboard in Resources */,
 				D0F7C15A2B6EAF290024A016 /* Assets.xcassets in Resources */,
-				D0F7C1552B6EAF280024A016 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,10 +293,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0F7C1522B6EAF280024A016 /* ViewController.swift in Sources */,
+				D0B6EE4E2B7929FA00155B34 /* ItemCell.swift in Sources */,
+				D0F7C1522B6EAF280024A016 /* CaterotyViewController.swift in Sources */,
+				D0F7C1872B71C87A0024A016 /* DetailSheetViewController.swift in Sources */,
+				D0F7C1852B70896E0024A016 /* ItemsViewController.swift in Sources */,
 				D0F7C1582B6EAF280024A016 /* Food_Calculus.xcdatamodeld in Sources */,
 				D0F7C14E2B6EAF280024A016 /* AppDelegate.swift in Sources */,
 				D0F7C1502B6EAF280024A016 /* SceneDelegate.swift in Sources */,
+				D0F7C1812B6F6AD60024A016 /* CategoryCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,14 +337,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		D0F7C1532B6EAF280024A016 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D0F7C1542B6EAF280024A016 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		D0F7C15B2B6EAF290024A016 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -372,7 +400,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -429,7 +457,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -451,9 +479,9 @@
 				INFOPLIST_FILE = "Food Calculus/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -461,9 +489,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gmail.gromovitaly.Food-Calculus";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -479,9 +510,9 @@
 				INFOPLIST_FILE = "Food Calculus/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -489,9 +520,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gmail.gromovitaly.Food-Calculus";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -504,13 +538,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZT525LAF69;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gmail.gromovitaly.Food-CalculusTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Food Calculus.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Food Calculus";
 			};
 			name = Debug;
@@ -524,13 +561,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZT525LAF69;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gmail.gromovitaly.Food-CalculusTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Food Calculus.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Food Calculus";
 			};
 			name = Release;
@@ -543,12 +583,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZT525LAF69;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gmail.gromovitaly.Food-CalculusUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = "Food Calculus";
 			};
 			name = Debug;
@@ -561,12 +605,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZT525LAF69;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gmail.gromovitaly.Food-CalculusUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = "Food Calculus";
 			};
 			name = Release;
@@ -611,6 +659,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D0F7C1882B7323670024A016 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D0F7C1892B7323670024A016 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0F7C1882B7323670024A016 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		D0F7C1562B6EAF280024A016 /* Food_Calculus.xcdatamodeld */ = {

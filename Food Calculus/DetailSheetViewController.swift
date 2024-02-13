@@ -190,13 +190,10 @@ class DetailSheetViewController: UIViewController {
         dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
         dateFormatter.timeZone = TimeZone(identifier: "Europe/Moscow")
         let moscowTimeString = dateFormatter.string(from: date)
-        print("Moscow Time: \(moscowTimeString)")
         return moscowTimeString
     }
     
     @objc func buttonTapepd() {
-        print("save tapped")
-//        let recordingItem = RecordItem(context: context)
         guard let recordingItem = recordingItem else {return}
         if parentCategory != nil {
             recordingItem.parentCategory = parentCategory
@@ -205,6 +202,8 @@ class DetailSheetViewController: UIViewController {
         recordingItem.cost = Double(costTextField.text!)!
         recordingItem.weight = Double(weightTextField.text!)!
         recordingItem.note = noteTextView.text
+        recordingItem.costPerGr = recordingItem.cost / recordingItem.weight
+        recordingItem.costPerKg = recordingItem.costPerGr * 1000
         saveContext()
         delegate?.sheetDismiss(category: parentCategory)
     }
@@ -212,7 +211,7 @@ class DetailSheetViewController: UIViewController {
     func saveContext() {
         do {
             try context.save()
-            print("DetailSheetViewController save+")
+            print("Changes from detail sheet are saved +")
         } catch {
             print("save-")
         }
