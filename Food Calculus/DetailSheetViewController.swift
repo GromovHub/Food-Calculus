@@ -9,15 +9,24 @@ import Foundation
 import UIKit
 
 protocol DetailSheetViewControllerDelegate {
-    func sheetDismiss(category: CategoryItem?)
+    func sheetDismiss()
 }
 
 class DetailSheetViewController: UIViewController {
     
-    var parentCategory: CategoryItem?
+    var deatilSheetParentCategory: CategoryItem?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var delegate: DetailSheetViewControllerDelegate?
-    var recordingItem: RecordItem?
+    var recordingItem: RecordItem? {
+        didSet {
+            if recordingItem?.name == "noname" {
+                print("Creating new record")
+            } else {
+                print("Edit existing record -> \(String(describing: recordingItem?.name))")
+//                dump(recordingItem)
+            }
+        }
+    }
     
     let closeButton: UIButton = UIButton(type: .system)
     let nameTextField = UITextField()
@@ -26,6 +35,7 @@ class DetailSheetViewController: UIViewController {
     let timeStampLabel = UILabel()
     let noteTextView = UITextView()
     let justView = UIView()
+    let categoryButton = UIButton(type: .system)
     
     let moneySign: UIImageView = {
        let x = UIImageView()
@@ -46,8 +56,8 @@ class DetailSheetViewController: UIViewController {
     }()
     
     
-    init(parentCategory: CategoryItem?) {
-        self.parentCategory = parentCategory
+    init(deatilSheetParentCategory: CategoryItem?) {
+        self.deatilSheetParentCategory = deatilSheetParentCategory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -60,17 +70,21 @@ class DetailSheetViewController: UIViewController {
         view.backgroundColor = .white
         
         if  recordingItem == nil {
+            print("create new from details")
             recordingItem = RecordItem(context: context)
+            recordingItem?.parentCategory = self.deatilSheetParentCategory
+            recordingItem?.cost = 0
+            recordingItem?.weight = 0
             recordingItem?.timeStamp = Date()
         } else {
-            guard let recordingItem = recordingItem else {return}
+            print("will edit exist")
+            guard let recordingItem = recordingItem else {return} // just for comfort
             nameTextField.text = recordingItem.name
             costTextField.text = String(recordingItem.cost)
             weightTextField.text = String(recordingItem.weight)
             noteTextView.text = recordingItem.note
-            timeStampLabel.text = recordingItem.timeStamp?.moscowTimeDateFormatter()
         }
-        guard let recordingItem = recordingItem else {return}
+//        guard let recordingItem = recordingItem else {return}
 //        guard let recordingItem = recordingItem else {
 //            recordingItem = RecordItem(context: context)
 //            recordingItem?.timeStamp = Date()
@@ -83,6 +97,7 @@ class DetailSheetViewController: UIViewController {
         justView.addSubview(costTextField)
         justView.addSubview(weightTextField)
         justView.addSubview(timeStampLabel)
+        justView.addSubview(categoryButton)
         justView.addSubview(noteTextView)
         view.addSubview(closeButton)
         
@@ -115,6 +130,7 @@ class DetailSheetViewController: UIViewController {
         costTextField.translatesAutoresizingMaskIntoConstraints = false
         weightTextField.translatesAutoresizingMaskIntoConstraints = false
         timeStampLabel.translatesAutoresizingMaskIntoConstraints = false
+        categoryButton.translatesAutoresizingMaskIntoConstraints = false
         noteTextView.translatesAutoresizingMaskIntoConstraints = false
         justView.translatesAutoresizingMaskIntoConstraints = false
         closeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -156,7 +172,7 @@ class DetailSheetViewController: UIViewController {
         weightTextField.heightAnchor.constraint(equalTo: nameTextField.heightAnchor).isActive = true
         
         timeStampLabel.text = "n/d"
-        timeStampLabel.text = moscowTimeDateFormatter((recordingItem.timeStamp)!)
+        timeStampLabel.text = recordingItem?.timeStamp?.moscowTimeDateFormatter()
         timeStampLabel.textAlignment = .right
         
         timeStampLabel.topAnchor.constraint(equalTo: weightTextField.bottomAnchor, constant: verticalGap).isActive = true
@@ -164,9 +180,20 @@ class DetailSheetViewController: UIViewController {
         timeStampLabel.trailingAnchor.constraint(equalTo: justView.trailingAnchor, constant: -horizontalGap).isActive = true
         timeStampLabel.heightAnchor.constraint(equalTo: nameTextField.heightAnchor).isActive = true
         
+        categoryButton.setTitle(recordingItem?.parentCategory?.name, for: .normal)
+        categoryButton.menu = UIMenu(title: "Menu", image: nil, identifier: nil, options: .singleSelection, children: [
+            UIAction(title: "action", image: nil, identifier: nil, discoverabilityTitle: nil, attributes: .keepsMenuPresented, state: .on, handler: { _ in
+                print("works")
+            })
+        ])
+        
+        categoryButton.topAnchor.constraint(equalTo: timeStampLabel.bottomAnchor, constant: verticalGap).isActive = true
+//        categoryButton.leadingAnchor.constraint(equalTo: justView.leadingAnchor, constant: horizontalGap).isActive = true
+        categoryButton.trailingAnchor.constraint(equalTo: justView.trailingAnchor, constant: -horizontalGap).isActive = true
+        
         noteTextView.layer.cornerRadius = 10
         
-        noteTextView.topAnchor.constraint(equalTo: timeStampLabel.bottomAnchor, constant: verticalGap).isActive = true
+        noteTextView.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: verticalGap).isActive = true
         noteTextView.leadingAnchor.constraint(equalTo: justView.leadingAnchor, constant: horizontalGap).isActive = true
         noteTextView.trailingAnchor.constraint(equalTo: justView.trailingAnchor, constant: -horizontalGap).isActive = true
         noteTextView.bottomAnchor.constraint(equalTo: justView.bottomAnchor, constant: -verticalGap).isActive = true
@@ -194,18 +221,18 @@ class DetailSheetViewController: UIViewController {
     }
     
     @objc func buttonTapepd() {
-        guard let recordingItem = recordingItem else {return}
-        if parentCategory != nil {
-            recordingItem.parentCategory = parentCategory
-        }
+        guard let recordingItem = recordingItem else {return} // only for comfort
+//        if self.parentCategory != nil {
+//            recordingItem.parentCategory = parentCategory
+//        }
         recordingItem.name = nameTextField.text
-        recordingItem.cost = Double(costTextField.text!)!
-        recordingItem.weight = Double(weightTextField.text!)!
+        recordingItem.cost = Double(costTextField.text ?? "0") ?? 0
+        recordingItem.weight = Double(weightTextField.text ?? "0") ?? 0
         recordingItem.note = noteTextView.text
         recordingItem.costPerGr = recordingItem.cost / recordingItem.weight
         recordingItem.costPerKg = recordingItem.costPerGr * 1000
         saveContext()
-        delegate?.sheetDismiss(category: parentCategory)
+        delegate?.sheetDismiss()
     }
     
     func saveContext() {
@@ -221,7 +248,7 @@ class DetailSheetViewController: UIViewController {
 
 import SwiftUI
 #Preview(body: {
-    DetailSheetViewController(parentCategory: CategoryItem())
+    DetailSheetViewController(deatilSheetParentCategory: CategoryItem())
 })
 
 extension Date {

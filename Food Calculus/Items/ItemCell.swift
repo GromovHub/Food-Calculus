@@ -14,20 +14,13 @@ class ItemCell: UITableViewCell {
     
     static let reuseId = "ItemCell"
     
-//            """
-//    name: \(dataForCell.name!)
-//    cost: \(String(format: "%.2f", dataForCell.cost))
-//    weight g: \(String(format: "%.0f", dataForCell.weight))
-//    date: \(dataForCell.timeStamp!.moscowTimeDateFormatter())
-//    note: \(String(describing: dataForCell.note ?? ""))
-//    rub per g: \(String(format: "%.2f", dataForCell.cost / dataForCell.weight))
-//    rub per kg: \(String(format: "%.2f", dataForCell.cost / dataForCell.weight * 1000))
-//    """
     var recordItem: RecordItem? {
         didSet {
             setupCell()
         }
     }
+    
+    var showCategory = false
     
     let nameLabael = UILabel()
     let costLabel = UILabel()
@@ -36,6 +29,7 @@ class ItemCell: UITableViewCell {
     let noteLabel = UILabel()
     let perGLabel = UILabel()
     let perKGLbel = UILabel()
+    let categoryLabel = UILabel()
     
 //    init(recordItem: RecordItem) {
 //        self.recordItem = recordItem
@@ -65,6 +59,7 @@ class ItemCell: UITableViewCell {
 //        String(format: "%.2f", (recordItem?.cost ?? 0) / (recordItem?.weight ?? 00) * 1000)
         dateLabel.text = recordItem?.timeStamp?.moscowTimeDateFormatter()
         noteLabel.text = recordItem?.note
+        categoryLabel.text = recordItem?.parentCategory?.name
         
         contentView.addSubview(nameLabael)
         contentView.addSubview(costLabel)
@@ -74,6 +69,7 @@ class ItemCell: UITableViewCell {
         contentView.addSubview(perGLabel)
         contentView.addSubview(perKGLbel)
         
+        
         nameLabael.translatesAutoresizingMaskIntoConstraints = false
         costLabel.translatesAutoresizingMaskIntoConstraints = false
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -81,6 +77,7 @@ class ItemCell: UITableViewCell {
         noteLabel.translatesAutoresizingMaskIntoConstraints = false
         perGLabel.translatesAutoresizingMaskIntoConstraints = false
         perKGLbel.translatesAutoresizingMaskIntoConstraints = false
+        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let verticalGap: CGFloat = 0
         let horizontalGap: CGFloat = 18
@@ -136,6 +133,19 @@ class ItemCell: UITableViewCell {
 //        noteLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: horizontalGap).isActive = true
         noteLabel.heightAnchor.constraint(equalToConstant: rowHeight).isActive = true
         noteLabel.widthAnchor.constraint(lessThanOrEqualToConstant: contentView.frame.width * 0.6).isActive = true
+        
+        
+        if showCategory {
+            contentView.addSubview(categoryLabel)
+            
+            categoryLabel.font = .systemFont(ofSize: 10, weight: .light)
+            categoryLabel.layer.cornerRadius = 10
+            categoryLabel.backgroundColor = .systemGray4
+            
+            categoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
+            categoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
+            categoryLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        }
     }
     
 

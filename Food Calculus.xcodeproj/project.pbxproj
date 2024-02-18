@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		D0B6EE4E2B7929FA00155B34 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B6EE4D2B7929FA00155B34 /* ItemCell.swift */; };
+		D0DD300A2B7DA9F300DA4F74 /* RecordItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DD30062B7DA9F300DA4F74 /* RecordItem+CoreDataClass.swift */; };
+		D0DD300B2B7DA9F300DA4F74 /* RecordItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DD30072B7DA9F300DA4F74 /* RecordItem+CoreDataProperties.swift */; };
+		D0DD300C2B7DA9F300DA4F74 /* CategoryItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DD30082B7DA9F300DA4F74 /* CategoryItem+CoreDataClass.swift */; };
+		D0DD300D2B7DA9F300DA4F74 /* CategoryItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DD30092B7DA9F300DA4F74 /* CategoryItem+CoreDataProperties.swift */; };
 		D0F7C14E2B6EAF280024A016 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C14D2B6EAF280024A016 /* AppDelegate.swift */; };
 		D0F7C1502B6EAF280024A016 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C14F2B6EAF280024A016 /* SceneDelegate.swift */; };
 		D0F7C1522B6EAF280024A016 /* CaterotyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F7C1512B6EAF280024A016 /* CaterotyViewController.swift */; };
@@ -42,6 +46,10 @@
 
 /* Begin PBXFileReference section */
 		D0B6EE4D2B7929FA00155B34 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
+		D0DD30062B7DA9F300DA4F74 /* RecordItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D0DD30072B7DA9F300DA4F74 /* RecordItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D0DD30082B7DA9F300DA4F74 /* CategoryItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D0DD30092B7DA9F300DA4F74 /* CategoryItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D0F7C14A2B6EAF280024A016 /* Food Calculus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food Calculus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0F7C14D2B6EAF280024A016 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0F7C14F2B6EAF280024A016 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +94,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D0DD300E2B7DAA0300DA4F74 /* CoreDataEntities */ = {
+			isa = PBXGroup;
+			children = (
+				D0DD30062B7DA9F300DA4F74 /* RecordItem+CoreDataClass.swift */,
+				D0DD30072B7DA9F300DA4F74 /* RecordItem+CoreDataProperties.swift */,
+				D0DD30082B7DA9F300DA4F74 /* CategoryItem+CoreDataClass.swift */,
+				D0DD30092B7DA9F300DA4F74 /* CategoryItem+CoreDataProperties.swift */,
+			);
+			path = CoreDataEntities;
+			sourceTree = "<group>";
+		};
 		D0F7C1412B6EAF280024A016 = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +128,7 @@
 		D0F7C14C2B6EAF280024A016 /* Food Calculus */ = {
 			isa = PBXGroup;
 			children = (
+				D0DD300E2B7DAA0300DA4F74 /* CoreDataEntities */,
 				D0F7C1822B6F6ADC0024A016 /* Category */,
 				D0F7C1832B7089490024A016 /* Items */,
 				D0F7C1862B71C87A0024A016 /* DetailSheetViewController.swift */,
@@ -294,10 +314,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0B6EE4E2B7929FA00155B34 /* ItemCell.swift in Sources */,
+				D0DD300C2B7DA9F300DA4F74 /* CategoryItem+CoreDataClass.swift in Sources */,
+				D0DD300B2B7DA9F300DA4F74 /* RecordItem+CoreDataProperties.swift in Sources */,
 				D0F7C1522B6EAF280024A016 /* CaterotyViewController.swift in Sources */,
+				D0DD300A2B7DA9F300DA4F74 /* RecordItem+CoreDataClass.swift in Sources */,
 				D0F7C1872B71C87A0024A016 /* DetailSheetViewController.swift in Sources */,
 				D0F7C1852B70896E0024A016 /* ItemsViewController.swift in Sources */,
 				D0F7C1582B6EAF280024A016 /* Food_Calculus.xcdatamodeld in Sources */,
+				D0DD300D2B7DA9F300DA4F74 /* CategoryItem+CoreDataProperties.swift in Sources */,
 				D0F7C14E2B6EAF280024A016 /* AppDelegate.swift in Sources */,
 				D0F7C1502B6EAF280024A016 /* SceneDelegate.swift in Sources */,
 				D0F7C1812B6F6AD60024A016 /* CategoryCell.swift in Sources */,

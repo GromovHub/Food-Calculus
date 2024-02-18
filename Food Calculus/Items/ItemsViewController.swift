@@ -18,23 +18,15 @@ class ItemsViewController: UITableViewController {
         didSet {
             print("Category selected -> ", selectedCategory?.name ?? "ALL")
             reloadContext(sortBy: .dateDescending)
-//            if selectedCategory == nil {
-////                reloadAllRecords()
-//                reloadContext(sortBy: .dateDescending)
-//            } else {
-//                reloadContext()
-//            }
         }
     }
         
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-//        self.tableView.separatorColor = .darkGray
     }
     
     func setupNavBar() {
-//        view.backgroundColor = UIColor(red: 0.95, green: 0.98, blue: 0.93, alpha: 1.00)
         view.backgroundColor = .white
         navigationItem.title = selectedCategory?.name ?? "All Records"
         let addButton = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(addNewRecord))
@@ -83,8 +75,7 @@ class ItemsViewController: UITableViewController {
     }
     
     func callDetailsSheet() {
-        guard let selectedCategory = selectedCategory else {return}
-        let newDetailSheet = DetailSheetViewController(parentCategory: selectedCategory)
+        let newDetailSheet = DetailSheetViewController(deatilSheetParentCategory: selectedCategory)
         newDetailSheet.delegate = self
         newDetailSheet.modalPresentationStyle = .formSheet
         present(newDetailSheet, animated: true) {
@@ -118,11 +109,11 @@ extension ItemsViewController {
             do {
                 print("Reload records for category -> ", selectedCategory?.name ?? "All")
                 
-                // db corrector
-                for i in localItemsArray {
-                    i.costPerGr = i.cost / i.weight
-                    i.costPerKg = i.costPerGr * 1000
-                }
+//                // db corrector
+//                for i in localItemsArray {
+//                    i.costPerGr = i.cost / i.weight
+//                    i.costPerKg = i.costPerGr * 1000
+//                }
                 
                 let fetch = RecordItem.fetchRequest()
                 let dateAscendingSortDescriptor = NSSortDescriptor(key: "timeStamp", ascending: true)
@@ -137,51 +128,26 @@ extension ItemsViewController {
                 case .costDescending: fetch.sortDescriptors = [costDescendingDescriptor]
                 }
                 
-                if selectedCategory != nil {
-                    let parentCategoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+                // record already exists
+                if let selectedCategory = selectedCategory {
+                    let parentCategoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory.name)
                     fetch.predicate = parentCategoryPredicate
                 }
-                
-                
-                
                 localItemsArray = try context.fetch(fetch)
+                print(localItemsArray.count)
                 tableView.reloadData()
             } catch {
                 print("Reload records fail -")
             }
         }
-        
-//        func reloadAllRecords() {
-//            do {
-//                let request = RecordItem.fetchRequest()
-//                let sortDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
-//                request.sortDescriptors = [sortDescriptor]
-//                localItemsArray = try context.fetch(request)
-//                
-//                // db corrector
-//                for i in localItemsArray {
-//                    i.costPerGr = i.cost / i.weight
-//                    i.costPerKg = i.costPerGr * 1000
-//                }
-//                
-//                print("reload ALL RECORDS CATEGORY", localItemsArray.count)
-//                tableView.reloadData()
-//            } catch {
-//                print("reload-")
-//            }
-//        }
 }
     
  // MARK: - DetailSheetViewControllerDelegate
     extension ItemsViewController: DetailSheetViewControllerDelegate {
-        func sheetDismiss(category: CategoryItem?) {
+        func sheetDismiss() {
             print("Records reloaded by detail sheet delegate")
             self.dismiss(animated: true)
-            if category == nil {
-                reloadContext()
-            } else {
-                reloadContext()
-            }
+            reloadContext()
         }
     }
 
@@ -192,20 +158,30 @@ extension ItemsViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         self.tableView.register(ItemCell.self, forCellReuseIdentifier: ItemCell.reuseId)
-        let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseId, for: indexPath) as? ItemCell
-        guard let cell = cell else {return UITableViewCell()}
-        cell.recordItem = localItemsArray[indexPath.row]
-        return cell
+        if selectedCategory == nil {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseId, for: indexPath) as? ItemCell
+            guard let cell = cell else {return UITableViewCell()}
+            cell.showCategory = true
+            cell.recordItem = localItemsArray[indexPath.row]
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseId, for: indexPath) as? ItemCell
+            guard let cell = cell else {return UITableViewCell()}
+            cell.recordItem = localItemsArray[indexPath.row]
+            return cell
+        }
+        
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedCategory = selectedCategory else {
-            let editDetailsView = DetailSheetViewController(parentCategory: nil)
+            print("Current category ALL")
+            let editDetailsView = DetailSheetViewController(deatilSheetParentCategory: localItemsArray[indexPath.row].parentCategory)
             editDetailsView.recordingItem = localItemsArray[indexPath.row]
             editDetailsView.delegate = self
             present(editDetailsView, animated: true)
             return
         }
-        let editDetailsView = DetailSheetViewController(parentCategory: selectedCategory)
+        let editDetailsView = DetailSheetViewController(deatilSheetParentCategory: selectedCategory)
         editDetailsView.recordingItem = localItemsArray[indexPath.row]
         editDetailsView.delegate = self
         present(editDetailsView, animated: true)

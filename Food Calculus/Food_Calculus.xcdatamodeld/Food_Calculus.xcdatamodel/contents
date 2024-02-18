@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23D60" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="CategoryItem" representedClassName="CategoryItem" syncable="YES" codeGenerationType="class">
+    <entity name="CategoryItem" representedClassName="CategoryItem" syncable="YES">
         <attribute name="name" attributeType="String" defaultValueString="&quot;default value&quot;"/>
-        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecordItem" inverseName="parentCategory" inverseEntity="RecordItem"/>
+        <relationship name="relationship" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecordItem" inverseName="parentCategory" inverseEntity="RecordItem"/>
     </entity>
-    <entity name="RecordItem" representedClassName="RecordItem" syncable="YES" codeGenerationType="class">
+    <entity name="RecordItem" representedClassName="RecordItem" syncable="YES">
         <attribute name="cost" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="costPerGr" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="costPerKg" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>

@@ -13,7 +13,6 @@ class CaterotyViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        clearDatabase()
-//        deleteAll()
         setupNavBar()
         self.tableView.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.cellId)
         reloadContext()
@@ -38,7 +37,7 @@ class CaterotyViewController: UITableViewController {
         guard let cell = cell else {return UITableViewCell()}
         cell.selectionStyle = .default
         cell.accessoryType = .disclosureIndicator
-        cell.setupCellConfig(text: localCategoryArray[indexPath.row].name!)
+        cell.setupCellConfig(text: localCategoryArray[indexPath.row].name)
         return cell
     }
     
@@ -51,7 +50,7 @@ class CaterotyViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             context.delete(localCategoryArray[indexPath.row])
-            print("Category has been deleted -> ", self.localCategoryArray[indexPath.row].name ?? "Name error" )
+            print("Category has been deleted -> ", self.localCategoryArray[indexPath.row].name)
             self.localCategoryArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             saveContext()
@@ -157,12 +156,6 @@ class CaterotyViewController: UITableViewController {
              print("Attempted to clear persistent store: " + error.localizedDescription)
          }
     }
-    func deleteAll() {
-          let fetchRequest1: NSFetchRequest<NSFetchRequestResult> = RecordItem.fetchRequest()
-          let batchDeleteRequest1 = NSBatchDeleteRequest(fetchRequest: fetchRequest1)
-          _ = try? context.execute(batchDeleteRequest1)
-    }
-
 }
 
 
