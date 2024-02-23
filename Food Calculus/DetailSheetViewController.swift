@@ -28,6 +28,8 @@ class DetailSheetViewController: UIViewController {
         }
     }
     
+    let imagePicker = UIImagePickerController()
+    
     let closeButton: UIButton = UIButton(type: .system)
     let nameTextField = UITextField()
     let costTextField = UITextField()
@@ -36,6 +38,11 @@ class DetailSheetViewController: UIViewController {
     let noteTextView = UITextView()
     let justView = UIView()
     let categoryButton = UIButton(type: .system)
+    
+    let photoSegment = UIView()
+    let photoPreview = UIImageView()
+    let takePhotoButton = UIButton(type: .system)
+    let deletePhotoButton = UIButton(type: .system)
     
     let moneySign: UIImageView = {
        let x = UIImageView()
@@ -69,6 +76,10 @@ class DetailSheetViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .camera
+        
         if  recordingItem == nil {
             print("create new from details")
             recordingItem = RecordItem(context: context)
@@ -99,18 +110,17 @@ class DetailSheetViewController: UIViewController {
         justView.addSubview(timeStampLabel)
         justView.addSubview(categoryButton)
         justView.addSubview(noteTextView)
+        
+        justView.addSubview(photoSegment)
+        photoSegment.addSubview(photoPreview)
+        photoSegment.addSubview(takePhotoButton)
+        photoSegment.addSubview(deletePhotoButton)
+        
         view.addSubview(closeButton)
         
         nameTextField.placeholder = "Record name"
         costTextField.placeholder = "Cost"
         weightTextField.placeholder = "Weight"
-        
-//        guard let recordingItem = recordingItem else {return}
-//        nameTextField.text = recordingItem.name
-//        costTextField.text = String(recordingItem.cost)
-//        weightTextField.text = String(recordingItem.weight)
-//        noteTextView.text = recordingItem.note
-//        timeStampLabel.text = recordingItem.timeStamp?.moscowTimeDateFormatter()
         
         costTextField.rightViewMode = .always
         costTextField.rightView = {
@@ -134,6 +144,11 @@ class DetailSheetViewController: UIViewController {
         noteTextView.translatesAutoresizingMaskIntoConstraints = false
         justView.translatesAutoresizingMaskIntoConstraints = false
         closeButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        photoSegment.translatesAutoresizingMaskIntoConstraints = false
+        photoPreview.translatesAutoresizingMaskIntoConstraints = false
+        takePhotoButton.translatesAutoresizingMaskIntoConstraints = false
+        deletePhotoButton.translatesAutoresizingMaskIntoConstraints = false
         
         justView.layer.cornerRadius = 10
         justView.backgroundColor = .systemGray6
@@ -188,15 +203,40 @@ class DetailSheetViewController: UIViewController {
         ])
         
         categoryButton.topAnchor.constraint(equalTo: timeStampLabel.bottomAnchor, constant: verticalGap).isActive = true
-//        categoryButton.leadingAnchor.constraint(equalTo: justView.leadingAnchor, constant: horizontalGap).isActive = true
         categoryButton.trailingAnchor.constraint(equalTo: justView.trailingAnchor, constant: -horizontalGap).isActive = true
         
         noteTextView.layer.cornerRadius = 10
         
         noteTextView.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: verticalGap).isActive = true
         noteTextView.leadingAnchor.constraint(equalTo: justView.leadingAnchor, constant: horizontalGap).isActive = true
-        noteTextView.trailingAnchor.constraint(equalTo: justView.trailingAnchor, constant: -horizontalGap).isActive = true
         noteTextView.bottomAnchor.constraint(equalTo: justView.bottomAnchor, constant: -verticalGap).isActive = true
+        noteTextView.widthAnchor.constraint(equalToConstant: view.bounds.width / 2).isActive = true
+        
+        photoSegment.backgroundColor = .systemMint
+        photoSegment.layer.cornerRadius = 10
+        
+        photoSegment.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: verticalGap).isActive = true
+        photoSegment.bottomAnchor.constraint(equalTo: justView.bottomAnchor, constant: -verticalGap).isActive = true
+        photoSegment.leadingAnchor.constraint(equalTo: noteTextView.trailingAnchor, constant: 10).isActive = true
+        photoSegment.trailingAnchor.constraint(equalTo: justView.trailingAnchor, constant: -10).isActive = true
+        
+        photoPreview.image = UIImage(systemName: "questionmark")
+        
+        photoPreview.topAnchor.constraint(equalTo: photoSegment.topAnchor, constant: 0).isActive = true
+        photoPreview.leadingAnchor.constraint(equalTo: photoSegment.leadingAnchor, constant: 0).isActive = true
+        photoPreview.trailingAnchor.constraint(equalTo: photoSegment.trailingAnchor).isActive = true
+        photoPreview.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        
+        takePhotoButton.setTitle("Take Photo", for: .normal)
+        takePhotoButton.addTarget(self, action: #selector(takePhotoButtonTapped), for: .touchUpInside)
+        
+        takePhotoButton.topAnchor.constraint(equalTo: photoPreview.bottomAnchor, constant: 0).isActive = true
+        
+        deletePhotoButton.setTitle("Delete Photo", for: .normal)
+        deletePhotoButton.addTarget(self, action: #selector(deletePhotoButtonTapped), for: .touchUpInside)
+        
+        deletePhotoButton.topAnchor.constraint(equalTo: takePhotoButton.bottomAnchor, constant: 0).isActive = true
+        
         
         closeButton.addTarget(self, action: #selector(buttonTapepd), for: .touchUpInside)
         closeButton.layer.cornerRadius = 10
@@ -218,6 +258,14 @@ class DetailSheetViewController: UIViewController {
         dateFormatter.timeZone = TimeZone(identifier: "Europe/Moscow")
         let moscowTimeString = dateFormatter.string(from: date)
         return moscowTimeString
+    }
+    
+    @objc func takePhotoButtonTapped() {
+        present(imagePicker, animated: true)
+    }
+    
+    @objc func deletePhotoButtonTapped() {
+        
     }
     
     @objc func buttonTapepd() {
@@ -248,7 +296,10 @@ class DetailSheetViewController: UIViewController {
 
 import SwiftUI
 #Preview(body: {
-    DetailSheetViewController(deatilSheetParentCategory: CategoryItem())
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let cat = CategoryItem(context: context)
+    cat.name = "Apples"
+    return DetailSheetViewController(deatilSheetParentCategory: cat)
 })
 
 extension Date {
@@ -259,5 +310,15 @@ extension Date {
         let moscowTimeString = dateFormatter.string(from: self)
 //        print("Moscow Time: \(moscowTimeString)")
         return moscowTimeString
+    }
+}
+
+extension DetailSheetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            photoPreview.image = image
+            // save image to
+        }
+        picker.dismiss(animated: true)
     }
 }
