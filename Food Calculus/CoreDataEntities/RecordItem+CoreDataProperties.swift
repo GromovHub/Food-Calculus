@@ -24,6 +24,7 @@ extension RecordItem {
     @NSManaged public var timeStamp: Date?
     @NSManaged public var weight: Double
     @NSManaged public var parentCategory: CategoryItem?
+    @NSManaged public var photo: Data?
 
 }
 
