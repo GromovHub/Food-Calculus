@@ -13,6 +13,7 @@ import CoreData
 class ItemsViewController: UITableViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let refresher = UIRefreshControl()
     var localItemsArray: [RecordItem] = []
     var selectedCategory: CategoryItem? {
         didSet {
@@ -24,6 +25,12 @@ class ItemsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
+        setupRefresher()
+    }
+    
+    func setupRefresher() {
+        refresher.addTarget(self, action: #selector(addNewRecord), for: .valueChanged)
+        tableView.addSubview(refresher)
     }
     
     func setupNavBar() {
@@ -48,6 +55,10 @@ class ItemsViewController: UITableViewController {
     }
     
     @objc func addNewRecord() {
+        refresher.endRefreshing()
+        if !localItemsArray.isEmpty {
+                    self.tableView.moveRow(at: IndexPath(row: 0, section: 0), to: IndexPath(row: 0, section: 0))
+        }
         callDetailsSheet()
     }
     

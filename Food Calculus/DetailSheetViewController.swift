@@ -28,7 +28,7 @@ class DetailSheetViewController: UIViewController {
         }
     }
     
-    let imagePicker = UIImagePickerController()
+    lazy var imagePicker = UIImagePickerController()
     
     let closeButton: UIButton = UIButton(type: .system)
     let nameTextField = UITextField()
@@ -80,13 +80,17 @@ class DetailSheetViewController: UIViewController {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .camera
         
+        nameTextField.becomeFirstResponder()
+        nameTextField.returnKeyType = .next
+        nameTextField.delegate = self
+        
         if  recordingItem == nil {
-            print("create new from details")
-            recordingItem = RecordItem(context: context)
-            recordingItem?.parentCategory = self.deatilSheetParentCategory
-            recordingItem?.cost = 0
-            recordingItem?.weight = 0
-            recordingItem?.timeStamp = Date()
+//            print("create new from details")
+//            recordingItem = RecordItem(context: context)
+//            recordingItem?.parentCategory = self.deatilSheetParentCategory
+//            recordingItem?.cost = 0
+//            recordingItem?.weight = 0
+//            recordingItem?.timeStamp = Date()
         } else {
             print("will edit exist")
             guard let recordingItem = recordingItem else {return} // just for comfort
@@ -94,6 +98,10 @@ class DetailSheetViewController: UIViewController {
             costTextField.text = String(recordingItem.cost)
             weightTextField.text = String(recordingItem.weight)
             noteTextView.text = recordingItem.note
+            
+            if let photoData = recordingItem.photo {
+                photoPreview.image = convertDataToPhoto(data: photoData)
+            }
         }
 //        guard let recordingItem = recordingItem else {return}
 //        guard let recordingItem = recordingItem else {
@@ -187,7 +195,11 @@ class DetailSheetViewController: UIViewController {
         weightTextField.heightAnchor.constraint(equalTo: nameTextField.heightAnchor).isActive = true
         
         timeStampLabel.text = "n/d"
-        timeStampLabel.text = recordingItem?.timeStamp?.moscowTimeDateFormatter()
+        if recordingItem == nil {
+            timeStampLabel.text = Date().moscowTimeDateFormatter()
+        } else {
+            timeStampLabel.text = recordingItem?.timeStamp?.moscowTimeDateFormatter()
+        }
         timeStampLabel.textAlignment = .right
         
         timeStampLabel.topAnchor.constraint(equalTo: weightTextField.bottomAnchor, constant: verticalGap).isActive = true
@@ -195,7 +207,11 @@ class DetailSheetViewController: UIViewController {
         timeStampLabel.trailingAnchor.constraint(equalTo: justView.trailingAnchor, constant: -horizontalGap).isActive = true
         timeStampLabel.heightAnchor.constraint(equalTo: nameTextField.heightAnchor).isActive = true
         
-        categoryButton.setTitle(recordingItem?.parentCategory?.name, for: .normal)
+        if recordingItem == nil {
+            categoryButton.setTitle(self.deatilSheetParentCategory?.name, for: .normal)
+        } else {
+            categoryButton.setTitle(recordingItem?.parentCategory?.name, for: .normal)
+        }
         categoryButton.menu = UIMenu(title: "Menu", image: nil, identifier: nil, options: .singleSelection, children: [
             UIAction(title: "action", image: nil, identifier: nil, discoverabilityTitle: nil, attributes: .keepsMenuPresented, state: .on, handler: { _ in
                 print("works")
@@ -212,7 +228,7 @@ class DetailSheetViewController: UIViewController {
         noteTextView.bottomAnchor.constraint(equalTo: justView.bottomAnchor, constant: -verticalGap).isActive = true
         noteTextView.widthAnchor.constraint(equalToConstant: view.bounds.width / 2).isActive = true
         
-        photoSegment.backgroundColor = .systemMint
+        photoSegment.backgroundColor = .systemGray5
         photoSegment.layer.cornerRadius = 10
         
         photoSegment.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: verticalGap).isActive = true
@@ -220,25 +236,38 @@ class DetailSheetViewController: UIViewController {
         photoSegment.leadingAnchor.constraint(equalTo: noteTextView.trailingAnchor, constant: 10).isActive = true
         photoSegment.trailingAnchor.constraint(equalTo: justView.trailingAnchor, constant: -10).isActive = true
         
-        photoPreview.image = UIImage(systemName: "questionmark")
+//        photoPreview.image = UIImage(systemName: "questionmark")
         
-        photoPreview.topAnchor.constraint(equalTo: photoSegment.topAnchor, constant: 0).isActive = true
-        photoPreview.leadingAnchor.constraint(equalTo: photoSegment.leadingAnchor, constant: 0).isActive = true
-        photoPreview.trailingAnchor.constraint(equalTo: photoSegment.trailingAnchor).isActive = true
+        let photoTap = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        photoPreview.isUserInteractionEnabled = true
+        photoPreview.addGestureRecognizer(photoTap)
+        photoPreview.contentMode = .scaleAspectFill
+        photoPreview.layer.cornerRadius = 10
+        photoPreview.layer.borderColor = UIColor.white.cgColor
+        photoPreview.layer.borderWidth = 1
+        photoPreview.clipsToBounds = true
+        
+        
+        photoPreview.topAnchor.constraint(equalTo: photoSegment.topAnchor, constant: 10).isActive = true
+        photoPreview.leadingAnchor.constraint(equalTo: photoSegment.leadingAnchor, constant: 5).isActive = true
+        photoPreview.trailingAnchor.constraint(equalTo: photoSegment.trailingAnchor, constant: -5).isActive = true
         photoPreview.heightAnchor.constraint(equalToConstant: 180).isActive = true
         
         takePhotoButton.setTitle("Take Photo", for: .normal)
         takePhotoButton.addTarget(self, action: #selector(takePhotoButtonTapped), for: .touchUpInside)
         
-        takePhotoButton.topAnchor.constraint(equalTo: photoPreview.bottomAnchor, constant: 0).isActive = true
+//        takePhotoButton.topAnchor.constraint(equalTo: photoPreview.bottomAnchor, constant: 0).isActive = true
+        takePhotoButton.leadingAnchor.constraint(equalTo: photoSegment.leadingAnchor, constant: 10).isActive = true
+        takePhotoButton.bottomAnchor.constraint(equalTo: deletePhotoButton.topAnchor, constant: -10).isActive = true
         
         deletePhotoButton.setTitle("Delete Photo", for: .normal)
         deletePhotoButton.addTarget(self, action: #selector(deletePhotoButtonTapped), for: .touchUpInside)
         
-        deletePhotoButton.topAnchor.constraint(equalTo: takePhotoButton.bottomAnchor, constant: 0).isActive = true
+        deletePhotoButton.bottomAnchor.constraint(equalTo: photoSegment.bottomAnchor, constant: -10).isActive = true
+        deletePhotoButton.leadingAnchor.constraint(equalTo: photoSegment.leadingAnchor, constant: 10).isActive = true
         
         
-        closeButton.addTarget(self, action: #selector(buttonTapepd), for: .touchUpInside)
+        closeButton.addTarget(self, action: #selector(addAndCloseButtonTapepd), for: .touchUpInside)
         closeButton.layer.cornerRadius = 10
         closeButton.backgroundColor = .systemGray6
         closeButton.titleLabel?.font = .systemFont(ofSize: 18)
@@ -265,20 +294,51 @@ class DetailSheetViewController: UIViewController {
     }
     
     @objc func deletePhotoButtonTapped() {
-        
+        photoPreview.image = nil
+        recordingItem?.photo = nil
     }
     
-    @objc func buttonTapepd() {
-        guard let recordingItem = recordingItem else {return} // only for comfort
-//        if self.parentCategory != nil {
-//            recordingItem.parentCategory = parentCategory
-//        }
-        recordingItem.name = nameTextField.text
-        recordingItem.cost = Double(costTextField.text ?? "0") ?? 0
-        recordingItem.weight = Double(weightTextField.text ?? "0") ?? 0
-        recordingItem.note = noteTextView.text
-        recordingItem.costPerGr = recordingItem.cost / recordingItem.weight
-        recordingItem.costPerKg = recordingItem.costPerGr * 1000
+    @objc func imageTapped() {
+        print("Image Tapped")
+        guard let photo = photoPreview.image else {return}
+        present(ZoomSheetViewController(photo: photo), animated: true)
+    }
+    
+    @objc func addAndCloseButtonTapepd() {
+//        guard let recordingItem = recordingItem else {return} // only for comfort
+        if let recordingItem = recordingItem {
+            recordingItem.name = nameTextField.text
+            recordingItem.cost = Double(costTextField.text ?? "0") ?? 0
+            recordingItem.weight = Double(weightTextField.text ?? "0") ?? 0
+            recordingItem.note = noteTextView.text
+            recordingItem.costPerGr = recordingItem.cost / recordingItem.weight
+            recordingItem.costPerKg = recordingItem.costPerGr * 1000
+            
+            
+            if let photo = photoPreview.image {
+                recordingItem.photo = convertPhotoToData(photo: photo)
+            } else {
+                recordingItem.photo = nil
+            }
+        } else {
+            self.recordingItem = RecordItem(context: context)
+            guard let newRecord = recordingItem else {return}
+            newRecord.parentCategory = self.deatilSheetParentCategory
+            newRecord.timeStamp = Date()
+            newRecord.name = nameTextField.text
+            newRecord.cost = Double(costTextField.text ?? "0") ?? 0
+            newRecord.weight = Double(weightTextField.text ?? "0") ?? 0
+            newRecord.note = noteTextView.text
+            newRecord.costPerGr = newRecord.cost / newRecord.weight
+            newRecord.costPerKg = newRecord.costPerGr * 1000
+            
+            
+            if let photo = photoPreview.image {
+                newRecord.photo = convertPhotoToData(photo: photo)
+            } else {
+                newRecord.photo = nil
+            }
+        }
         saveContext()
         delegate?.sheetDismiss()
     }
@@ -317,8 +377,32 @@ extension DetailSheetViewController: UIImagePickerControllerDelegate, UINavigati
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
             photoPreview.image = image
-            // save image to
         }
         picker.dismiss(animated: true)
+    }
+    
+    func convertPhotoToData(photo: UIImage) -> Data?{
+        if let data = photo.jpegData(compressionQuality: 0.8) {
+            return data
+        } else {
+            print("can't convert photo to data")
+            return nil
+        }
+    }
+    
+    func convertDataToPhoto(data: Data) -> UIImage? {
+        if let image = UIImage(data: data) {
+            return image
+        } else {
+            print("can't convert data to photo")
+            return nil
+        }
+    }
+}
+
+extension DetailSheetViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        costTextField.becomeFirstResponder()
+        return true
     }
 }

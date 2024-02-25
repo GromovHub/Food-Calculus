@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D04399EB2B8AFE8300028B3F /* ZoomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04399EA2B8AFE8300028B3F /* ZoomSheetViewController.swift */; };
 		D0B6EE4E2B7929FA00155B34 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B6EE4D2B7929FA00155B34 /* ItemCell.swift */; };
 		D0DD300A2B7DA9F300DA4F74 /* RecordItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DD30062B7DA9F300DA4F74 /* RecordItem+CoreDataClass.swift */; };
 		D0DD300B2B7DA9F300DA4F74 /* RecordItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DD30072B7DA9F300DA4F74 /* RecordItem+CoreDataProperties.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D04399EA2B8AFE8300028B3F /* ZoomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomSheetViewController.swift; sourceTree = "<group>"; };
 		D0B6EE4D2B7929FA00155B34 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		D0DD30062B7DA9F300DA4F74 /* RecordItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D0DD30072B7DA9F300DA4F74 /* RecordItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			children = (
 				D0F7C1842B70896E0024A016 /* ItemsViewController.swift */,
 				D0B6EE4D2B7929FA00155B34 /* ItemCell.swift */,
+				D04399EA2B8AFE8300028B3F /* ZoomSheetViewController.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				D0DD300A2B7DA9F300DA4F74 /* RecordItem+CoreDataClass.swift in Sources */,
 				D0F7C1872B71C87A0024A016 /* DetailSheetViewController.swift in Sources */,
 				D0F7C1852B70896E0024A016 /* ItemsViewController.swift in Sources */,
+				D04399EB2B8AFE8300028B3F /* ZoomSheetViewController.swift in Sources */,
 				D0F7C1582B6EAF280024A016 /* Food_Calculus.xcdatamodeld in Sources */,
 				D0DD300D2B7DA9F300DA4F74 /* CategoryItem+CoreDataProperties.swift in Sources */,
 				D0F7C14E2B6EAF280024A016 /* AppDelegate.swift in Sources */,

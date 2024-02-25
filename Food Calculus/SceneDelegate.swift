@@ -22,6 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         self.window?.makeKeyAndVisible()
         IQKeyboardManager.shared.enable = true
+        
     }
     
     
