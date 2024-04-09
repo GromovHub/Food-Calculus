@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import CoreData
 
-
 class ItemsViewController: UITableViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -27,11 +26,11 @@ class ItemsViewController: UITableViewController {
         setupNavBar()
         setupRefresher()
     }
-    
-    func setupRefresher() {
-        refresher.addTarget(self, action: #selector(addNewRecord), for: .valueChanged)
-        tableView.addSubview(refresher)
-    }
+}
+
+// MARK: - Setup Views
+
+extension ItemsViewController {
     
     func setupNavBar() {
         view.backgroundColor = .white
@@ -48,10 +47,14 @@ class ItemsViewController: UITableViewController {
         let allRecordsView = [counterView, filterButton]
         
         navigationItem.rightBarButtonItems = selectedCategory == nil ? allRecordsView : itemsView
-//        navigationItem.standardAppearance?.backgroundColor = UIColor(red: 0.95, green: 0.98, blue: 0.93, alpha: 1.00)
         navigationItem.standardAppearance?.backgroundColor = .white
         navigationItem.standardAppearance?.titleTextAttributes = [.foregroundColor: UIColor(red: 0.11, green: 0.21, blue: 0.34, alpha: 1.00)]
         
+    }
+    
+    func setupRefresher() {
+        refresher.addTarget(self, action: #selector(addNewRecord), for: .valueChanged)
+        tableView.addSubview(refresher)
     }
     
     @objc func addNewRecord() {
@@ -62,12 +65,16 @@ class ItemsViewController: UITableViewController {
         callDetailsSheet()
     }
     
-    @objc func callFilter() {
-//        print("FILTER ALERT")
-        callFilterAlert()
+    func callDetailsSheet() {
+        let newDetailSheet = DetailSheetViewController(deatilSheetParentCategory: selectedCategory)
+        newDetailSheet.delegate = self
+        newDetailSheet.modalPresentationStyle = .formSheet
+        present(newDetailSheet, animated: true) {
+        }
     }
     
-    func callFilterAlert() {
+    @objc func callFilter() {
+        
         let alert = UIAlertController(title: "Sort by", message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Date Descending", style: .default, handler: { _ in
             self.reloadContext(sortBy: .dateDescending)
@@ -85,20 +92,12 @@ class ItemsViewController: UITableViewController {
         present(alert, animated: true)
     }
     
-    func callDetailsSheet() {
-        let newDetailSheet = DetailSheetViewController(deatilSheetParentCategory: selectedCategory)
-        newDetailSheet.delegate = self
-        newDetailSheet.modalPresentationStyle = .formSheet
-        present(newDetailSheet, animated: true) {
-//            print("sheet opened")
-        }
-    }
-    
-
 }
  
 // MARK: - CoreData
+
 extension ItemsViewController {
+    
         func saveContext() {
             do {
                 try context.save()
@@ -117,14 +116,9 @@ extension ItemsViewController {
     }
         
     func reloadContext(sortBy: SortBy = .dateDescending) {
+        
             do {
                 print("Reload records for category -> ", selectedCategory?.name ?? "All")
-                
-//                // db corrector
-//                for i in localItemsArray {
-//                    i.costPerGr = i.cost / i.weight
-//                    i.costPerKg = i.costPerGr * 1000
-//                }
                 
                 let fetch = RecordItem.fetchRequest()
                 let dateAscendingSortDescriptor = NSSortDescriptor(key: "timeStamp", ascending: true)
@@ -139,7 +133,7 @@ extension ItemsViewController {
                 case .costDescending: fetch.sortDescriptors = [costDescendingDescriptor]
                 }
                 
-                // record already exists
+                // if record already exists
                 if let selectedCategory = selectedCategory {
                     let parentCategoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory.name)
                     fetch.predicate = parentCategoryPredicate
@@ -154,6 +148,7 @@ extension ItemsViewController {
 }
     
  // MARK: - DetailSheetViewControllerDelegate
+
     extension ItemsViewController: DetailSheetViewControllerDelegate {
         func sheetDismiss() {
             print("Records reloaded by detail sheet delegate")
@@ -163,10 +158,13 @@ extension ItemsViewController {
     }
 
 // MARK: - TableView Controls
+
 extension ItemsViewController {
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return localItemsArray.count
     }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         self.tableView.register(ItemCell.self, forCellReuseIdentifier: ItemCell.reuseId)
         if selectedCategory == nil {
@@ -181,8 +179,8 @@ extension ItemsViewController {
             cell.recordItem = localItemsArray[indexPath.row]
             return cell
         }
-        
     }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectedCategory = selectedCategory else {
             print("Current category ALL")
@@ -197,6 +195,7 @@ extension ItemsViewController {
         editDetailsView.delegate = self
         present(editDetailsView, animated: true)
     }
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             context.delete(localItemsArray[indexPath.row])
@@ -206,7 +205,10 @@ extension ItemsViewController {
             saveContext()
         }
     }
+    
 }
+
+// MARK: - SwiftUI Preview
 
 import SwiftUI
 

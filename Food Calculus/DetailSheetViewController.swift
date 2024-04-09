@@ -14,6 +14,8 @@ protocol DetailSheetViewControllerDelegate {
 
 class DetailSheetViewController: UIViewController {
     
+    // MARK: - Properties
+    
     var deatilSheetParentCategory: CategoryItem?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var delegate: DetailSheetViewControllerDelegate?
@@ -22,8 +24,7 @@ class DetailSheetViewController: UIViewController {
             if recordingItem?.name == "noname" {
                 print("Creating new record")
             } else {
-                print("Edit existing record -> \(String(describing: recordingItem?.name))")
-//                dump(recordingItem)
+                print("Editing an existing record -> \(String(describing: recordingItem?.name))")
             }
         }
     }
@@ -62,6 +63,7 @@ class DetailSheetViewController: UIViewController {
         return x
     }()
     
+    // MARK: - Initializers
     
     init(deatilSheetParentCategory: CategoryItem?) {
         self.deatilSheetParentCategory = deatilSheetParentCategory
@@ -74,6 +76,18 @@ class DetailSheetViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
+    }
+    
+}
+
+
+
+// MARK: - Setup Views
+
+extension DetailSheetViewController {
+    
+    func setupViews() {
         view.backgroundColor = .white
         
         imagePicker.delegate = self
@@ -103,13 +117,6 @@ class DetailSheetViewController: UIViewController {
                 photoPreview.image = convertDataToPhoto(data: photoData)
             }
         }
-//        guard let recordingItem = recordingItem else {return}
-//        guard let recordingItem = recordingItem else {
-//            recordingItem = RecordItem(context: context)
-//            recordingItem?.timeStamp = Date()
-//            return
-//        }
-        
         
         view.addSubview(justView)
         justView.addSubview(nameTextField)
@@ -278,16 +285,12 @@ class DetailSheetViewController: UIViewController {
         closeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: horizontalGap).isActive = true
         closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -horizontalGap).isActive = true
         closeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
     }
-    
-    func moscowTimeDateFormatter(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
-        dateFormatter.timeZone = TimeZone(identifier: "Europe/Moscow")
-        let moscowTimeString = dateFormatter.string(from: date)
-        return moscowTimeString
-    }
+}
+
+// MARK: - View Actions
+
+extension DetailSheetViewController {
     
     @objc func takePhotoButtonTapped() {
         present(imagePicker, animated: true)
@@ -343,37 +346,21 @@ class DetailSheetViewController: UIViewController {
         delegate?.sheetDismiss()
     }
     
-    func saveContext() {
-        do {
-            try context.save()
-            print("Changes from detail sheet are saved +")
-        } catch {
-            print("save-")
-        }
-    }
-    
 }
 
-import SwiftUI
-#Preview(body: {
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    let cat = CategoryItem(context: context)
-    cat.name = "Apples"
-    return DetailSheetViewController(deatilSheetParentCategory: cat)
-})
+// MARK: - TextField Delegate
 
-extension Date {
-    func moscowTimeDateFormatter() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
-        dateFormatter.timeZone = TimeZone(identifier: "Europe/Moscow")
-        let moscowTimeString = dateFormatter.string(from: self)
-//        print("Moscow Time: \(moscowTimeString)")
-        return moscowTimeString
+extension DetailSheetViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        costTextField.becomeFirstResponder()
+        return true
     }
 }
+
+// MARK: - ImagePicker
 
 extension DetailSheetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
             photoPreview.image = image
@@ -400,9 +387,49 @@ extension DetailSheetViewController: UIImagePickerControllerDelegate, UINavigati
     }
 }
 
-extension DetailSheetViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        costTextField.becomeFirstResponder()
-        return true
+// MARK: - Date Formatter
+
+extension Date {
+    
+    func moscowTimeDateFormatter() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(identifier: "Europe/Moscow")
+        let moscowTimeString = dateFormatter.string(from: self)
+//        print("Moscow Time: \(moscowTimeString)")
+        return moscowTimeString
+    }
+    
+    func moscowTimeDateFormatter(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(identifier: "Europe/Moscow")
+        let moscowTimeString = dateFormatter.string(from: date)
+        return moscowTimeString
     }
 }
+
+// MARK: - CoreData
+
+extension DetailSheetViewController {
+    
+    func saveContext() {
+        do {
+            try context.save()
+            print("Changes from detail sheet are saved +")
+        } catch {
+            print("save-")
+        }
+    }
+    
+}
+
+// MARK: - SwiftUI Preview
+
+import SwiftUI
+#Preview(body: {
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let cat = CategoryItem(context: context)
+    cat.name = "Apples"
+    return DetailSheetViewController(deatilSheetParentCategory: cat)
+})

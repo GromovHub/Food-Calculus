@@ -10,52 +10,34 @@ import CoreData
 
 class CaterotyViewController: UITableViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        clearDatabase()
-        setupNavBar()
-        self.tableView.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.cellId)
-        reloadContext()
-        setupRefresher()
-        
-        
-        
-    }
-    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var localCategoryArray: [CategoryItem] = []
     let refresher = UIRefreshControl()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.tableView.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.cellId)
+        setupNavBar()
+        setupRefresher()
+        reloadContext()
+    }
+}
+
+// MARK: - Setup Views
+
+extension CaterotyViewController {
     
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        localCategoryArray.count
+    func setupNavBar() {
+        let nav = self.navigationController?.navigationBar
+        navigationController?.navigationBar.prefersLargeTitles = true
+        nav?.topItem?.title = "Categories"
+        let allRecordsButton = UIBarButtonItem(image: UIImage(systemName: "tray.full"), style: .plain, target: self, action: #selector(showAllRecords))
+        allRecordsButton.tintColor = UIColor(red: 0.90, green: 0.22, blue: 0.27, alpha: 1.00)
+        let addButton = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(addCategory))
+        addButton.tintColor = UIColor(red: 0.90, green: 0.22, blue: 0.27, alpha: 1.00)
+        nav?.topItem?.rightBarButtonItems = [addButton, allRecordsButton]
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CategoryCell.cellId, for: indexPath) as? CategoryCell
-        guard let cell = cell else {return UITableViewCell()}
-        cell.selectionStyle = .default
-        cell.accessoryType = .disclosureIndicator
-        cell.setupCellConfig(text: localCategoryArray[indexPath.row].name)
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let newVC = ItemsViewController()
-        newVC.selectedCategory = localCategoryArray[indexPath.row]
-        self.navigationController?.pushViewController(newVC, animated: true)
-    }
-    // TODO: - maybe add alert for delete
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            context.delete(localCategoryArray[indexPath.row])
-            print("Category has been deleted -> ", self.localCategoryArray[indexPath.row].name)
-            self.localCategoryArray.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            saveContext()
-        }
-    }
     func setupRefresher() {
         refresher.addTarget(self, action: #selector(addCategory), for: .valueChanged)
         let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(red: 0.11, green: 0.21, blue: 0.34, alpha: 0.50)]
@@ -66,28 +48,6 @@ class CaterotyViewController: UITableViewController {
                                          width: refresher.bounds.size.width,
                                          height: refresher.bounds.size.height)
         tableView.addSubview(refresher)
-    }
-    
-    
-    func setupNavBar() {
-//        view.backgroundColor = UIColor(red: 0.95, green: 0.98, blue: 0.93, alpha: 1.00)
-        let nav = self.navigationController?.navigationBar
-        navigationController?.navigationBar.prefersLargeTitles = true
-        nav?.topItem?.title = "Categories"
-        let allRecordsButton = UIBarButtonItem(image: UIImage(systemName: "tray.full"), style: .plain, target: self, action: #selector(showAllRecords))
-        allRecordsButton.tintColor = UIColor(red: 0.90, green: 0.22, blue: 0.27, alpha: 1.00)
-        let addButton = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(addCategory))
-        addButton.tintColor = UIColor(red: 0.90, green: 0.22, blue: 0.27, alpha: 1.00)
-        nav?.topItem?.rightBarButtonItems = [addButton, allRecordsButton]
-//        nav?.standardAppearance.backgroundColor = UIColor(red: 0.95, green: 0.98, blue: 0.93, alpha: 1.00)
-//        nav?.standardAppearance.titleTextAttributes = [.foregroundColor: UIColor(red: 0.11, green: 0.21, blue: 0.34, alpha: 1.00)]
-        
-    }
-    
-    @objc func showAllRecords() {
-        let itemsVC = ItemsViewController()
-        itemsVC.selectedCategory = nil
-        self.navigationController?.pushViewController(itemsVC, animated: true)
     }
     
     @objc func addCategory() {
@@ -113,6 +73,51 @@ class CaterotyViewController: UITableViewController {
         present(alert, animated: true)
     }
     
+    @objc func showAllRecords() {
+        let itemsVC = ItemsViewController()
+        itemsVC.selectedCategory = nil
+        self.navigationController?.pushViewController(itemsVC, animated: true)
+    }
+}
+
+// MARK: - TableView
+
+extension CaterotyViewController {
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        localCategoryArray.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CategoryCell.cellId, for: indexPath) as? CategoryCell
+        guard let cell = cell else {return UITableViewCell()}
+        cell.selectionStyle = .default
+        cell.accessoryType = .disclosureIndicator
+        cell.setupCellConfig(text: localCategoryArray[indexPath.row].name)
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newVC = ItemsViewController()
+        newVC.selectedCategory = localCategoryArray[indexPath.row]
+        self.navigationController?.pushViewController(newVC, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            context.delete(localCategoryArray[indexPath.row])
+            print("Category has been deleted -> ", self.localCategoryArray[indexPath.row].name)
+            self.localCategoryArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            saveContext()
+        }
+    }
+}
+
+// MARK: - CoreData
+
+extension CaterotyViewController {
+    
     func saveContext() {
         do {
             try context.save()
@@ -132,32 +137,29 @@ class CaterotyViewController: UITableViewController {
             print("Сategories have not been reloaded -")
         }
     }
-    
-    func checkForAllCategory() -> Bool{
-        var result = false
-        for i in localCategoryArray {
-            if i.name == "All Records" {
-                result = true
-            }
-        }
-        return result
-    }
+}
+
+// MARK: - Clear DB
+
+extension CaterotyViewController {
     
     public func clearDatabase() {
         let x = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
         guard let url = x.persistentStoreDescriptions.first?.url else { return }
         
         let persistentStoreCoordinator = x.persistentStoreCoordinator
-
-         do {
-             try persistentStoreCoordinator.destroyPersistentStore(at:url, ofType: NSSQLiteStoreType, options: nil)
-             try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
-         } catch {
-             print("Attempted to clear persistent store: " + error.localizedDescription)
-         }
+        
+        do {
+            try persistentStoreCoordinator.destroyPersistentStore(at:url, ofType: NSSQLiteStoreType, options: nil)
+            try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
+        } catch {
+            print("Attempted to clear persistent store: " + error.localizedDescription)
+        }
     }
+    
 }
 
+// MARK: - SwiftUI Preview
 
 import SwiftUI
 #Preview(body: {
