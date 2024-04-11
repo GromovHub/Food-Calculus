@@ -1,5 +1,5 @@
 //
-//  CaterotyViewController.swift
+//  CategoryViewController.swift
 //  Food Calculus
 //
 //  Created by Vitaly Gromov on 03.02.2024.
@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class CaterotyViewController: UITableViewController {
+class CategoryViewController: UITableViewController {
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var localCategoryArray: [CategoryItem] = []
@@ -25,7 +25,7 @@ class CaterotyViewController: UITableViewController {
 
 // MARK: - Setup Views
 
-extension CaterotyViewController {
+extension CategoryViewController {
     
     func setupNavBar() {
         let nav = self.navigationController?.navigationBar
@@ -82,7 +82,7 @@ extension CaterotyViewController {
 
 // MARK: - TableView
 
-extension CaterotyViewController {
+extension CategoryViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         localCategoryArray.count
@@ -116,7 +116,7 @@ extension CaterotyViewController {
 
 // MARK: - CoreData
 
-extension CaterotyViewController {
+extension CategoryViewController {
     
     func saveContext() {
         do {
@@ -141,7 +141,7 @@ extension CaterotyViewController {
 
 // MARK: - Clear DB
 
-extension CaterotyViewController {
+extension CategoryViewController {
     
     public func clearDatabase() {
         let x = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
@@ -163,5 +163,5 @@ extension CaterotyViewController {
 
 import SwiftUI
 #Preview(body: {
-    UINavigationController(rootViewController: CaterotyViewController())
+    UINavigationController(rootViewController: CategoryViewController())
 })
