@@ -5,4 +5,4 @@
 - В приложении можно зафиксировать место покупки, дату, оставить комментарий, сделать фото и отфильтроваться по цене
 - Верстка UIKit, persistance Coredata и какой-то фреймворк для клавиатуры
 
-  ![preview]() 
+  ![preview](https://github.com/GromovHub/Food-Calculus/blob/main/fc.jpg) 
